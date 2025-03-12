@@ -8,7 +8,11 @@ FONTS = \
     fira32.bin \
     gomono16.bin \
     gomono24.bin \
-    gomono32.bin
+    gomono32.bin \
+    srccode16.bin \
+    srccode24.bin \
+    srccode32.bin \
+    srccode64.bin
 
 all: $(FONTS)
 
