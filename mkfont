@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import re
+import sys
+
+CFG_LINE_RE = re.compile(r"([a-z]+)\s+([0-9]+)")
+DATA_LINE_RE = re.compile(r"[\.x]+$")
+
+cfg = {}
+chars = {}
+
+with open(sys.argv[1]) as f:
+    for line in f:
+        line = line.rstrip()
+        m = CFG_LINE_RE.match(line)
+        if m:
+            cfg[m.group(1)] = int(m.group(2))
+        m = DATA_LINE_RE.match(line)
+        if m:
+            cc = cfg["char"]
+            chars.setdefault(cc, []).append(
+                [c == 'x' for c in line]
+            )
+
+bytes_per_row = (cfg["width"] + 7) // 8
+bytes_per_char = bytes_per_row * cfg["height"]
+
+fontdata = [0] * (bytes_per_char * (max(chars.keys()) + 1))
+
+for idx, data in chars.items():
+    offset_start = bytes_per_char * idx
+    for y, row in enumerate(data):
+        for x, val in enumerate(row):
+            bit_idx = (offset_start + y * bytes_per_row) * 8 + x
+            if val:
+                fontdata[bit_idx // 8] |= 1 << (7 - (bit_idx % 8))
+
+with open("out.bin", "wb") as f:
+    f.write(bytes(fontdata))
