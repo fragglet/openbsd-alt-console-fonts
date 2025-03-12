@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 
+import os
 import re
 import sys
 
 CFG_LINE_RE = re.compile(r"([a-z]+)\s+([0-9]+)")
 DATA_LINE_RE = re.compile(r"[\.x]+$")
+
+if len(sys.argv) != 3:
+    print("Usage: %s <input.txt> <output.bin>" % sys.argv[0])
+    os.exit(1)
 
 cfg = {}
 chars = {}
@@ -35,5 +40,5 @@ for idx, data in chars.items():
             if val:
                 fontdata[bit_idx // 8] |= 1 << (7 - (bit_idx % 8))
 
-with open("out.bin", "wb") as f:
+with open(sys.argv[2], "wb") as f:
     f.write(bytes(fontdata))
