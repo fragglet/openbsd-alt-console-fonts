@@ -5,8 +5,10 @@ FONTS = \
     dejavu32.bin \
     fira16.bin \
     fira24.bin \
+    fira32.bin \
     gomono16.bin \
-    gomono24.bin
+    gomono24.bin \
+    gomono32.bin
 
 all: $(FONTS)
 

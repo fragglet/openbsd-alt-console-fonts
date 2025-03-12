@@ -27,8 +27,11 @@ with open(sys.argv[1]) as f:
                 [c == 'x' for c in line]
             )
 
+# Note: we ignore cfg["height"] and just double the width
+height = cfg["width"] * 2
+
 bytes_per_row = (cfg["width"] + 7) // 8
-bytes_per_char = bytes_per_row * cfg["height"]
+bytes_per_char = bytes_per_row * height
 
 fontdata = [0] * (bytes_per_char * (max(chars.keys()) + 1))
 
